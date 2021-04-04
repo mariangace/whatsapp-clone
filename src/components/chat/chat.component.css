@@ -26,7 +26,6 @@
 }
 
 .chat__headerRight {
-  background-color: pink;
   display: flex;
   justify-content: space-between;
   min-width: 100px;
