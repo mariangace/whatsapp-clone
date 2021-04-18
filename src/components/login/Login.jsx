@@ -1,10 +1,22 @@
-import React from 'react'
+import React  from 'react'
 import { Button } from "@material-ui/core";
 import './login.style.css';
+import { auth, provider } from '../../firebase';
+import { actionTypes } from '../../contextAPI/reducer';
+import { useStateValue } from '../../contextAPI/StateProvider';
 
 function Login() {
+  const [dispatch] = useStateValue();
+  
   const signIn = () => {
-    console.log('sign in');
+    auth.signInWithPopup(provider)
+    .then((result)=> {
+      console.log(result)
+      dispatch({type:actionTypes.SET_USER,
+        user:result.user,
+      })
+    })
+    .catch((error)=> console.log(error.message));
   }
   return (
     <div className="login">
@@ -17,7 +29,6 @@ function Login() {
         Sign in with Google
       </Button>
       </div>
-      
     </div>
   )
 }

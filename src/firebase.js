@@ -2,16 +2,18 @@ import firebase from "firebase";
 
 //For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCgKwwgx-6QxGLtB4BkkmpPjGpt5VHsoYc",
-  authDomain: "whatsapp-clone-32b8c.firebaseapp.com",
-  projectId: "whatsapp-clone-32b8c",
-  storageBucket: "whatsapp-clone-32b8c.appspot.com",
-  messagingSenderId: "885944144611",
-  appId: "1:885944144611:web:47549ecbe5ddc5d635abd6",
-  measurementId: "G-1K9G43G6YL"
+  apiKey: PerformanceObserverEntryList.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID ,
+  appId: process.env.REACT_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID
 };
 
-firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const provider = new firebase.auth.GoogleAuthProvider();
+const db = firebaseApp.firestore();
 
-const db = firebase.firestore();
+export {auth, provider };
 export default db;
