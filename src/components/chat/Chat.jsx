@@ -5,13 +5,16 @@ import MicIcon from '@material-ui/icons/Mic';
 import { useParams } from "react-router-dom";
 import db from '../../firebase';
 import './chat.style.css';
+import { useStateValue } from '../../contextAPI/StateProvider';
 
 function Chat() {
   const [input, setInput] = useState("");
   const [seed, setSeed] = useState(0);
-  const [roomName, setRoomName] = useState("")
+  const [roomName, setRoomName] = useState("");
   const { roomId } = useParams();
-
+  const [messages, setMessages] = useState([]);
+  const [{user},dispatch ]= useStateValue();
+  
   const sendMessage = (e) => {
     e.preventDefault();
     console.log("you type", input);
@@ -22,9 +25,13 @@ function Chat() {
     if(roomId){
       db.collection('rooms').doc(roomId).onSnapshot((snapshot)=>{
         setRoomName(snapshot.data().name);
-      })
+      });
+      db.collection('rooms').doc(roomId).collection('messages').orderBy('timestamp','asc').onSnapshot((snapshot )=> 
+      setMessages(snapshot.docs.map(doc => doc.data())));
     }
   }, [roomId]);
+
+  console.log(messages);
 
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
@@ -51,6 +58,17 @@ function Chat() {
         </div>
       </div>
       <div className="chat__body">
+        {
+          messages.map((message,i) => (
+            <p key={`message.${i}`} className={`chat__message ${message.name === user.displayName && 'chat__receiver'}`}>
+            <span className="chat__name">{message.name}</span>
+           {message.message}
+            <span className="chat__timestamp">
+              {new Date(message.timestamp?.toDate()).toUTCString()}
+            </span>
+          </p>
+          ))
+        }
         <p className={`chat__message ${false && 'chat__receiver'}`}>
           <span className="chat__name">Mariana</span>
           Hey guys
