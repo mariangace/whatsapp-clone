@@ -6,6 +6,8 @@ Have a look!
 
 ![Screenshot](/public/Screenshot.png)
 
+Open [https://whatsapp-clone.bunnycoding.com/](https://whatsapp-clone.bunnycoding.com/)
+
 ## Available Scripts
 
 In the project directory, you can run:
