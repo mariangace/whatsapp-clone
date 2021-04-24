@@ -4,8 +4,9 @@ import { SearchOutlined, AttachFile, MoreVert, InsertEmoticon } from '@material-
 import MicIcon from '@material-ui/icons/Mic';
 import { useParams } from "react-router-dom";
 import db from '../../firebase';
-import './chat.style.css';
+import firebase from 'firebase';
 import { useStateValue } from '../../contextAPI/StateProvider';
+import './Chat.css';
 
 function Chat() {
   const [input, setInput] = useState("");
@@ -13,12 +14,16 @@ function Chat() {
   const [roomName, setRoomName] = useState("");
   const { roomId } = useParams();
   const [messages, setMessages] = useState([]);
-  const [{user},dispatch ]= useStateValue();
+  const [{user} ]= useStateValue();
   
   const sendMessage = (e) => {
     e.preventDefault();
-    console.log("you type", input);
     setInput(input);
+    db.collection('rooms').doc(roomId).collection('messages').add({
+      message:input,
+      name: user.displayName,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    })
   }
 
   useEffect(() => {
@@ -31,8 +36,6 @@ function Chat() {
     }
   }, [roomId]);
 
-  console.log(messages);
-
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
    }, [roomId]);
@@ -43,7 +46,10 @@ function Chat() {
        <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`}/>
         <div className="chat__headerInfo">
           <h3>{roomName}</h3>
-          <p> Last seen at ...</p>
+          <p> Last seen at {' '} 
+          {
+            new Date(messages[messages.length -1]?.timestamp?.toDate()).toUTCString()
+          }</p>
         </div>
         <div className="chat__headerRight">
           <IconButton>
@@ -69,13 +75,7 @@ function Chat() {
           </p>
           ))
         }
-        <p className={`chat__message ${false && 'chat__receiver'}`}>
-          <span className="chat__name">Mariana</span>
-          Hey guys
-          <span className="chat__timestamp">
-            07:00PM
-          </span>
-        </p>
+
       </div>
       <div className="chat__footer">
         <InsertEmoticon />

@@ -10,6 +10,10 @@
   justify-content: space-between;
   padding: 20px;
   border: 1px solid lightgray;
+  align-items: center;
+}
+.sidebar__header h2 {
+  margin-left: 10px;
 }
 
 .sidebar__headerRight {
@@ -48,6 +52,10 @@
 }
 
 .sidebar__searchContainer input:hover {
+  outline: none;
+}
+
+.sidebar__searchContainer input:focus {
   outline: none;
 }
 
