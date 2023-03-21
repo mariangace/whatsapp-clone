@@ -6,7 +6,7 @@ Have a look!
 
 ![Screenshot](/public/Screenshot.png)
 
-Open [https://whatsapp-clone.bunnycoding.com/](https://whatsapp-clone.bunnycoding.com/)
+Open [https://whatsapp-clone.mariangarcia.site/](https://whatsapp-clone.mariangarcia.site/)
 
 ## Available Scripts
 
